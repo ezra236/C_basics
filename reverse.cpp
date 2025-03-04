@@ -4,7 +4,7 @@
 using namespace std;
 
 vector<int> reverse(vector<int> *modifiedArray) {
-	
+
 	vector<int> dynamic;
 	
 	for(int i = (*modifiedArray).size()-1; i >= 0; i--) {
