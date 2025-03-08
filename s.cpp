@@ -143,6 +143,10 @@ class Car {
 		friend class Calculate;
 		friend class Admin;
 		
+		Car() {
+        // You can initialize default values here if necessary.
+    }
+		
 	Car(int capacity, string car_transmission, string fuel, string car_color, string mod, string service, 
         float capacity_engine, int year, string name, string id, float price, bool status, 
         float mileage, float number, bool gps, string type_c)
@@ -231,8 +235,12 @@ class Car {
 class Sedans: public Car {
 		
 	public:	
+	
+	   friend class customer;
 		
 		void display(string choice) {
+			
+			cout<<endl<<"Sedans data\n";
 			
 			transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
 			
@@ -251,7 +259,7 @@ class Sedans: public Car {
 				cout<<"Choice:\t"<<choice<<endl;
 				
 				for(int idx: indices) {
-					cout<<"The indexes:\t"<<indices[i];
+					cout<<"The indexes:\t"<<indices[idx];
 				}
 				
 				for(int i = 0; i < indices.size(); i++) {
@@ -309,7 +317,7 @@ class suvs: public Car {
 				cout<<"Choice:\t"<<choice<<endl;
 				
 				for(int idx: indices) {
-					cout<<"The indexes:\t"<<indices[i];
+					cout<<"The indexes:\t"<<indices[idx];
 				}
 				
 				for(int i = 0; i < indices.size(); i++) {
@@ -369,7 +377,7 @@ class Convertibles: public Car {
 				cout<<"Choice:\t"<<choice<<endl;
 				
 				for(int idx: indices) {
-					cout<<"The indexes:\t"<<indices[i];
+					cout<<"The indexes:\t"<<indices[idx];
 				}
 				
 				for(int i = 0; i < indices.size(); i++) {
@@ -428,7 +436,7 @@ class Wagons: public Car {
 				cout<<"Choice:\t"<<choice<<endl;
 				
 				for(int idx: indices) {
-					cout<<"The indexes:\t"<<indices[i];
+					cout<<"The indexes:\t"<<indices[idx];
 				}
 				
 				for(int i = 0; i < indices.size(); i++) {
@@ -486,7 +494,7 @@ class Trucks: public Car {
 				cout<<"Choice:\t"<<choice<<endl;
 				
 				for(int idx: indices) {
-					cout<<"The indexes:\t"<<indices[i];
+					cout<<"The indexes:\t"<<indices[idx];
 				}
 				
 				for(int i = 0; i < indices.size(); i++) {
@@ -545,7 +553,7 @@ class ElectricCars: public Car {
 				cout<<"Choice:\t"<<choice<<endl;
 				
 				for(int idx: indices) {
-					cout<<"The indexes:\t"<<indices[i];
+					cout<<"The indexes:\t"<<indices[idx];
 				}
 				
 				for(int i = 0; i < indices.size(); i++) {
@@ -556,7 +564,7 @@ class ElectricCars: public Car {
 					
 					displaymore(value);
 					
-					if(vehicle_model[value] == "electricals") {
+					if(vehicle_model[value] == "electrics") {
 						cout<<"------------------------------------------------------------------------------------------------------------------------------------";
 						cout <<"Features of Electric Cars:"<<endl;
 						
@@ -582,7 +590,7 @@ class Calculate {
 		
 	protected:
 		
-		void cal(Car & car) {
+		void cal() {
 			
 			int days;
 			
@@ -596,6 +604,7 @@ class Calculate {
 			cout<<"What type of car do you want:\t";
 			cin>>choice;
 			
+			Car car;
 			
             transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
 
@@ -611,7 +620,7 @@ class Calculate {
                     break;  // Stop after the first occurrence is found
                 }
             }
-
+            
             if (firstOccurrenceIndex != -1) {
                 cout << "Choice:\t" << choice << endl;
                 cout << "Type of Car:\t" << car.vehicle_model[firstOccurrenceIndex] 
@@ -634,6 +643,13 @@ class Calculate {
 
 	
 		}
+		
+		
+	public: 
+	   
+	   void calu() {
+	   	    cal();
+	   }
 	
 };
 
@@ -642,18 +658,25 @@ class Admin {
 	private:
 		string password;
 		
-		void verify(Car & car) {
+		void verify() {
 			
 			cout<<"Enter the password:\t";
 			cin>>password;
 			
 			if (password == "123") {
 				
+				Car car;
 				car.set();
 				
 			} else {
 				cout<<"Password Invalid!";
 			}
+		}
+		
+	public:
+		
+		void verifypassword() {
+			verify();
 		}
 		
 };
@@ -663,9 +686,7 @@ class customer {
 	
 	protected:
 		
-		void see(Sedans& sed, Trucks&truc, Convertibles&conv, Wagons& wag, suvs & suv, ElectricCars& elec) {
-			
-			cout<<"WELCOME TO THE VIEW SECTION";
+		void see() {	
 			cout<<"--------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
 			cout<<"THE AVAILABLE CAR TYPES:\n";
 			cout<<"Suvs\n";
@@ -677,7 +698,7 @@ class customer {
 			
 			char lat;
 			
-			cout<<"SEE MORE ABOUT EACH CAR? YES(Y) OR NO(N)";
+			cout<<"SEE MORE ABOUT EACH CAR? YES(Y) OR NO(N)\t";
 			cin>> lat;
 			
 			if ( lat == 'Y' || lat == 'y') {
@@ -707,35 +728,59 @@ class customer {
                 cout << "Enter the type of car:\t";
                 cin >> name;
                 transform(name.begin(), name.end(), name.begin(), ::tolower);
+                
+                cout<<"The type selected:\t"<<name;
 
                 CarType type = getCarType(name);
+                
+                cout<<"\nDone:\t"<<type;
 
                 switch (type) {
-                    case SEDANS:
+                    case SEDANS: {
+                    	Sedans sed;
                         sed.display(name);
                         break;
-                    case SUVS:
-                        suv.display(name);
+                    }
+                    case SUVS: {
+                    	suvs su;
+                        su.display(name);
                         break;
-                    case CONVERTIBLES:
+                    }
+                    case CONVERTIBLES: {
+                    	Convertibles conv;
                         conv.display(name);
                         break;
-                    case TRUCKS:
+                    }
+                    case TRUCKS: {
+                    	Trucks truc;
                         truc.display(name);
                         break;
-                    case WAGONS:
+                    }
+                    case WAGONS: {
+                    	Wagons wag;
                         wag.display(name);
                         break;
-                    case ELECTRIC:
+                    }
+                    case ELECTRIC: {
+                    	ElectricCars elec;
                         elec.display(name);
                         break;
+                    }
                     default:
                         cout << "Invalid Option!";
                         break;
                 }
 			}
 		}
-};
+		
+		
+	public:
+    
+	    void displayCars() {
+            see();
+        }
+        
+}; 
 		
 		 
 class Policies {
@@ -794,12 +839,12 @@ int main() {
         if (option == "0") {
             cout << "\nDisplaying Cars Information...\n";
             customer satisfy;
-            satisfy.see();
+            satisfy.displayCars();
         }
         else if (option == "1") {
             cout << "\nAdmin Login Selected...\n";
             Admin admin;
-            admin.verify();
+            admin.verifypassword();
         }
         else if (option == "2") {
             cout << "\nDisplaying Rental Policies...\n";
@@ -809,19 +854,18 @@ int main() {
         else if (option == "3") {
             cout << "\nStarting Hire Process...\n";
             Calculate calc;
-            calc.cal();
+            calc.calu();
         }
         else if (option == "e" || option == "E") {
             cout << "\nExiting the system. Goodbye!\n";
             break;  // Ext the loop
-        else {
+        } else {
             cout << "\nInvalid option! Please try again.\n";
         }
         
         cout << "\n";  // Blank line for better readability
     }
     
-}
     
     return 0;
     
