@@ -230,7 +230,7 @@ class Car {
 
 class Sedans: public Car {
 		
-	public:
+	public:	
 		
 		void display(string choice) {
 			
@@ -238,7 +238,7 @@ class Sedans: public Car {
 			
 			vector<int> indices;
 			
-			for (size_t i; i < vehicle_type.size(); i++) {
+			for (size_t i = 0; i < vehicle_type.size(); i++) {
 				
 				string current = vehicle_type[i];
 				
@@ -288,13 +288,15 @@ class suvs: public Car {
 	
 	public:
 		
+		friend class customer;
+		
 		void display(string choice) {
 			
 			transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
 			
 			vector<int> indices;
 			
-			for (size_t i; i < vehicle_type.size(); i++) {
+			for (size_t i = 0; i < vehicle_type.size(); i++) {
 				
 				string current = vehicle_type[i];
 				
@@ -346,6 +348,7 @@ class Convertibles: public Car {
 	
 	public:
 		
+		friend class customer;
 				
 		void display(string choice) {
 			
@@ -353,7 +356,7 @@ class Convertibles: public Car {
 			
 			vector<int> indices;
 			
-			for (size_t i; i < vehicle_type.size(); i++) {
+			for (size_t i = 0; i < vehicle_type.size(); i++) {
 				
 				string current = vehicle_type[i];
 				
@@ -404,6 +407,7 @@ class Wagons: public Car {
 	
 	public:
 		
+		friend class customer;
 				
 		void display(string choice) {
 			
@@ -411,7 +415,7 @@ class Wagons: public Car {
 			
 			vector<int> indices;
 			
-			for (size_t i; i < vehicle_type.size(); i++) {
+			for (size_t i = 0; i < vehicle_type.size(); i++) {
 				
 				string current = vehicle_type[i];
 				
@@ -461,6 +465,7 @@ class Trucks: public Car {
 	
 	public:
 		
+		friend class customer;
 				
 		void display(string choice) {
 			
@@ -468,7 +473,7 @@ class Trucks: public Car {
 			
 			vector<int> indices;
 			
-			for (size_t i; i < vehicle_type.size(); i++) {
+			for (size_t i = 0; i < vehicle_type.size(); i++) {
 				
 				string current = vehicle_type[i];
 				
@@ -519,6 +524,7 @@ class ElectricCars: public Car {
 	
 	public:
 		
+		friend class customer;
 				
 		void display(string choice) {
 			
@@ -526,7 +532,7 @@ class ElectricCars: public Car {
 			
 			vector<int> indices;
 			
-			for (size_t i; i < vehicle_type.size(); i++) {
+			for (size_t i = 0; i < vehicle_type.size(); i++) {
 				
 				string current = vehicle_type[i];
 				
@@ -576,7 +582,7 @@ class Calculate {
 		
 	protected:
 		
-		void cal(const Car & car) {
+		void cal(Car & car) {
 			
 			int days;
 			
@@ -636,7 +642,7 @@ class Admin {
 	private:
 		string password;
 		
-		void verify(const Car & car) {
+		void verify(Car & car) {
 			
 			cout<<"Enter the password:\t";
 			cin>>password;
@@ -644,6 +650,7 @@ class Admin {
 			if (password == "123") {
 				
 				car.set();
+				
 			} else {
 				cout<<"Password Invalid!";
 			}
@@ -656,35 +663,166 @@ class customer {
 	
 	protected:
 		
-		
+		void see(Sedans& sed, Trucks&truc, Convertibles&conv, Wagons& wag, suvs & suv, ElectricCars& elec) {
+			
+			cout<<"WELCOME TO THE VIEW SECTION";
+			cout<<"--------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+			cout<<"THE AVAILABLE CAR TYPES:\n";
+			cout<<"Suvs\n";
+			cout<<"Convertibles\n";
+			cout<<"Wagons\n";
+			cout<<"Trucks\n";
+			cout<<"Sedans\n";
+			cout<<"Electric\n";
+			
+			char lat;
+			
+			cout<<"SEE MORE ABOUT EACH CAR? YES(Y) OR NO(N)";
+			cin>> lat;
+			
+			if ( lat == 'Y' || lat == 'y') {
+				
+				enum CarType {
+                    SEDANS,
+                    SUVS,
+                    CONVERTIBLES,
+                    TRUCKS,
+                    WAGONS,
+                    ELECTRIC,
+                    UNKNOWN
+                };
+
+                auto getCarType = [=](const std::string &name) -> CarType {
+                    if (name == "sedans") return SEDANS;
+                    else if (name == "suvs") return SUVS;
+                    else if (name == "convertibles") return CONVERTIBLES;
+                    else if (name == "trucks") return TRUCKS;
+                    else if (name == "wagons") return WAGONS;
+                    else if (name == "electric") return ELECTRIC;
+                    else return UNKNOWN;
+                };
+
+                // Usage:
+                string name;
+                cout << "Enter the type of car:\t";
+                cin >> name;
+                transform(name.begin(), name.end(), name.begin(), ::tolower);
+
+                CarType type = getCarType(name);
+
+                switch (type) {
+                    case SEDANS:
+                        sed.display(name);
+                        break;
+                    case SUVS:
+                        suv.display(name);
+                        break;
+                    case CONVERTIBLES:
+                        conv.display(name);
+                        break;
+                    case TRUCKS:
+                        truc.display(name);
+                        break;
+                    case WAGONS:
+                        wag.display(name);
+                        break;
+                    case ELECTRIC:
+                        elec.display(name);
+                        break;
+                    default:
+                        cout << "Invalid Option!";
+                        break;
+                }
+			}
+		}
 };
-
-
-
+		
+		 
 class Policies {
 		
 	public:
 		
-	
+		void policy() { 
+		
+		    cout << "Car Rental Policies:" << endl << endl;
+    
+            cout << "1. Driver Eligibility and Age Restrictions:" << endl;
+            cout << "   Rental companies often require drivers to be at least 21 or 25 years old." << endl;
+            cout << "   Younger drivers may incur additional surcharges, and sometimes an international" << endl;
+            cout << "   driver's license is needed if you're renting in a foreign country." << endl << endl;
+    
+            cout << "2. Insurance and Liability Coverage:" << endl;
+            cout << "   Car rental policies usually include requirements for insurance coverage." << endl;
+            cout << "   Renters must either provide proof of their personal auto insurance that covers rentals" << endl;
+            cout << "   or purchase the rental company's insurance, which may include collision damage waiver (CDW)," << endl;
+            cout << "   liability, and theft protection." << endl << endl;
+    
+            cout << "3. Fuel Policy:" << endl;
+            cout << "   Most companies operate on a \"full-to-full\" basis. This means you receive the car with a" << endl;
+            cout << "   full tank of gas and must return it full; otherwise, refueling fees or higher fuel charges" << endl;
+            cout << "   may apply. Some companies also offer prepaid fuel options." << endl << endl;
+    
+            cout << "4. Mileage Limits:" << endl;
+            cout << "   Depending on the rental agreement, there might be a cap on the number of miles or kilometers" << endl;
+            cout << "   you can drive. Exceeding these limits can result in extra charges. Some rentals offer unlimited" << endl;
+            cout << "   mileage, so it's important to check the policy before you sign." << endl << endl;
+    
+            cout << "5. Late Return and Rental Extension Fees:" << endl;
+            cout << "   If you return the vehicle later than agreed, rental companies may charge additional fees, often" << endl;
+            cout << "   calculated hourly or as a full extra day. It's important to be aware of these policies and contact" << endl;
+            cout << "   the company if you anticipate any delays." << endl;
+		}
+	    
 };
 
 
 
-int main () {
-	
-	
-	
-	
-	
-	return 0;
-	
+int main() {
+    string option;
+
+    while (true) {
+        cout << "WELCOME TO THE VEHICLE RENTAL SYSTEM\n";
+        cout << "CHOOSE AN OPTION\n";
+        cout << "CARS INFORMATION -> '0'\n";
+        cout << "ADMIN LOGIN -> '1'\n";
+        cout << "POLICIES -> '2'\n";
+        cout << "HIRE -> '3'\n";
+        cout << "EXIT -> 'e'\n";
+        cout << "Enter your choice: ";
+        cin >> option;
+        
+        if (option == "0") {
+            cout << "\nDisplaying Cars Information...\n";
+            customer satisfy;
+            satisfy.see();
+        }
+        else if (option == "1") {
+            cout << "\nAdmin Login Selected...\n";
+            Admin admin;
+            admin.verify();
+        }
+        else if (option == "2") {
+            cout << "\nDisplaying Rental Policies...\n";
+            Policies polic;
+            polic.policy();
+        }
+        else if (option == "3") {
+            cout << "\nStarting Hire Process...\n";
+            Calculate calc;
+            calc.cal();
+        }
+        else if (option == "e" || option == "E") {
+            cout << "\nExiting the system. Goodbye!\n";
+            break;  // Ext the loop
+        else {
+            cout << "\nInvalid option! Please try again.\n";
+        }
+        
+        cout << "\n";  // Blank line for better readability
+    }
+    
 }
-
-
-
-
-
-
-
-
-
+    
+    return 0;
+    
+}
