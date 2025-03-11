@@ -10,8 +10,6 @@ class Car {
 	private:
 		vector<string> car_ids;
 		vector<int> rentalPrice;
-		vector<bool> rent_status;
-		bool rentalstatus;
 		vector<float> cMileage;
 		float currentMileage;
 		vector<float> reg_number;
@@ -59,7 +57,7 @@ class Car {
 			
 			cout<<"\n";
 			
-			cout<<"-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+			cout<<"-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
 			
 			set2();	
 		}
@@ -67,7 +65,9 @@ class Car {
 		void Important_Details() {
 			
 			for(int i = 0; i < car_ids.size(); i++) {
-				cout<<"Car IDs:\t"<<car_ids[i] <<"Car Status:\t" << rent_status[i] <<"Car Mileage:\t"<< cMileage[i] <<"Registration Number:\t"<< reg_number[i] <<"GPS data:\t" <<gps_data[i];
+				cout<<"Car IDs:\t"<<car_ids[i] <<endl;
+				cout<<"Car Mileage:\t"<< cMileage[i] <<endl <<"Registration Number:\t"<< reg_number[i]<<endl;
+				cout<<"GPS data:\t" <<gps_data[i];
 			}
 			
 			Important();
@@ -112,7 +112,7 @@ class Car {
 			
 			cout<<"\n";
 			
-			cout<<"--------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+			cout<<"--------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
 			
 			set3();
 		}
@@ -121,13 +121,13 @@ class Car {
 		void Important() {
 			
 			for(int i = 0; i< car_names.size(); i++) {
-				cout<<"Car Name:\t"<<car_names[i] <<"Year Manufactured:\t"<<manufactured[i]<<"Engine Capacity:\t"<<engine[i]<<"Last Serviced:\t"<<service_date[i];
+				cout<<"\nCar Name:\t"<<car_names[i] <<endl <<"Year Manufactured:\t"<<manufactured[i] <<endl <<"Engine Capacity:\t"<<engine[i] <<endl <<"Last Serviced:\t"<<service_date[i] <<endl;
 			}
 		}
 		
 		
 	public:
-		vector<string> vehicle_type;
+		static vector<string> vehicle_type;
 		string type_car;
 		vector<string> vehicle_model;
 		string model;
@@ -148,16 +148,15 @@ class Car {
     }
 		
 	Car(int capacity, string car_transmission, string fuel, string car_color, string mod, string service, 
-        float capacity_engine, int year, string name, string id, float price, bool status, 
-        float mileage, float number, bool gps, string type_c)
+        float capacity_engine, int year, string name, string id, float price, float mileage, float number, 
+		bool gps, string type_c)
     : sitting_capacity(capacity), transmission(car_transmission), fuel_type(fuel), color(car_color),
       model(mod), lastserviceDate(service), engine_capacity(capacity_engine), manufactured_year(year),
-      car_name(name), rental_price(price), car_id(id), rentalstatus(status), currentMileage(mileage),
+      car_name(name), rental_price(price), car_id(id), currentMileage(mileage),
       registrationNumber(number), gpsTrackingEnabled(gps), type_car(type_c)
     {
         car_ids.push_back(car_id);
         rentalPrice.push_back(rental_price);
-        rent_status.push_back(rentalstatus);
         cMileage.push_back(currentMileage);
         reg_number.push_back(registrationNumber);
         gps_data.push_back(gpsTrackingEnabled);
@@ -213,14 +212,16 @@ class Car {
 		
 		cout<<"\n";
 		
-		cout<<"------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+		cout<<"------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+		
+		Important_Details();
 	}
 	
 	
 	void Important_detail() {
 		
 		for(int i = 0; i < vehicle_model.size(); i++) {
-			cout<<"Car Model:\t"<<vehicle_model[i] <<"Car Fuel Type:\t"<<vehicle_fuel[i]<<"Vehicle Transmission:\t"<<vehicle_transmission[i]<<"Vehicle Capacity:\t"<<vehicle_capacity[i];
+			cout<<"\nCar Model:\t"<<vehicle_model[i] <<endl <<"Car Fuel Type:\t"<<vehicle_fuel[i] <<endl <<"Vehicle Transmission:\t"<<vehicle_transmission[i] <<endl <<"Vehicle Capacity:\t"<<vehicle_capacity[i] <<endl;
 		}
 		
 	}
@@ -239,55 +240,50 @@ class Sedans: public Car {
 	   friend class customer;
 		
 		void display(string choice) {
-			
-			cout<<endl<<"Sedans data\n";
-			
-			transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
-			
-			vector<int> indices;
-			
-			for (size_t i = 0; i < vehicle_type.size(); i++) {
-				
-				string current = vehicle_type[i];
-				
-				transform(current.begin(), current.end(), current.begin(), ::tolower);
-				
-				if(current == choice) {
-					indices.push_back(i);
-				}
-				
-				cout<<"Choice:\t"<<choice<<endl;
-				
-				for(int idx: indices) {
-					cout<<"The indexes:\t"<<indices[idx];
-				}
-				
-				for(int i = 0; i < indices.size(); i++) {
-					
-					int value = indices[i];
-		
-					cout<<"Type of Car:\t"<< vehicle_model[value] << "Model of the Car:\t"<<vehicle[value] <<"Color of the Car:\t"<< vehicle_fuel[value] <<"Transmission of the Car:\t" << vehicle_transmission[value] <<"Capacity of the Car:\t"<< vehicle_capacity[value]<<endl;
-					
-					displaymore(value);
-					
-					if(vehicle_model[value] == "sedans") {
-						cout<<"------------------------------------------------------------------------------------------------------------------------------------";
-						cout <<"Features of Sedans"<<endl;
-						
-						cout<<"Four-door designs\n comfortable seating\n smooth ride quality\n";
-						
-						cout<<"Usage:"<<endl;
-						
-						cout<<"daily commuting, business travel, and family use.";
-						cout<<"\n";
-						
-					}
-				}
-				
-			}
-			
-		}
-		
+		    cout << "\nChoice: " << choice << endl;
+            transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
+
+            vector<int> indices;
+    
+            // First, collect all indices where vehicle_type matches the choice
+            for (size_t i = 0; i < vehicle_type.size(); i++) {
+                string current = vehicle_type[i];
+                transform(current.begin(), current.end(), current.begin(), ::tolower);
+                if (current == choice) {
+                    indices.push_back(i);
+                }
+            }
+    
+            // Check if a match was found
+            if (indices.empty()) {
+                cout << "No matching vehicle type found." << endl;
+                return;
+            }
+    
+            
+            for (int idx : indices) {
+                cout << "The index:\t" << idx << endl;
+            }
+    
+            // Now display details for each matching vehicle
+            for (int idx : indices) {
+                cout << "Type of Car:\t" << vehicle_model[idx] 
+                << " | Model of the Car:\t" << vehicle[idx] 
+                << " | Color of the Car:\t" << vehicle_fuel[idx] 
+                << " | Transmission of the Car:\t" << vehicle_transmission[idx] 
+                << " | Capacity of the Car:\t" << vehicle_capacity[idx] << endl;
+        
+                displaymore(idx);
+        
+                if (vehicle_model[idx] == "sedans") {
+                    cout << "------------------------------------------------------------------------------------------------------------------------------------" << endl;
+                    cout << "Features of Sedans" << endl;
+                    cout << "Four-door designs\ncomfortable seating\nsmooth ride quality\n";
+                    cout << "Usage:" << endl;
+                    cout << "Daily commuting, business travel, and family use." << endl;
+                }
+            }
+        }	
 		
 };
 
