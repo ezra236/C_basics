@@ -817,6 +817,7 @@ class Policies {
 };
 
 
+vector<string> Car::vehicle_type; 
 
 int main() {
     string option;
